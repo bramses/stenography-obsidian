@@ -65,7 +65,7 @@ export default class MyPlugin extends Plugin {
 		var markdown = data.pm
 		const language = data.metadata.language || ''
 		if (markdown && Object.keys(markdown).length === 0 && Object.getPrototypeOf(markdown) === Object.prototype) {
-			return 'No stenography response found'
+			return {res: `Stenography response empty!`, language: ''}
 		}
 		return { res: markdown, language: language }
 	  }).catch(err => ({res: `Error loading from Stenography! Error: ${err}`, language: ''}))
