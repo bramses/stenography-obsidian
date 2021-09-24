@@ -12,6 +12,7 @@ export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 
 	async onload() {
+		console.log('loading plugin');
 		await this.loadSettings();
 
 		this.addRibbonIcon('code-glyph', 'Stenography', async () => {
@@ -61,9 +62,7 @@ export default class MyPlugin extends Plugin {
       {
         return resp.json()
       }).then((data:any) => {
-		  console.log(data)
 		var markdown = data.pm
-		console.log(typeof markdown)
 		if (markdown && Object.keys(markdown).length === 0 && Object.getPrototypeOf(markdown) === Object.prototype) {
 			return 'No stenography response found'
 		}
