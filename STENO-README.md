@@ -1,0 +1,2 @@
+# Stenography Obsidian
+

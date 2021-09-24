@@ -15,9 +15,17 @@
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-typescript": "^8.2.1",
     "@types/node": "^14.14.37",
+    "@types/turndown": "^5.0.1",
     "obsidian": "^0.12.0",
     "rollup": "^2.32.1",
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "@types/node-fetch": "^3.0.3",
+    "assert-never": "^1.2.1",
+    "file-url": "^4.0.0",
+    "node-fetch": "^3.0.0",
+    "turndown": "^7.1.1"
   }
 }
