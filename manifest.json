@@ -4,7 +4,7 @@
 	"version": "1.0.1",
 	"minAppVersion": "0.9.12",
 	"description": "Auto Describe your code with machine learning using the Stenography API",
-	"author": "Stenography",
+	"author": "bramses",
 	"authorUrl": "https://stenography.dev/",
 	"isDesktopOnly": false
 }
