@@ -40,11 +40,11 @@ export default class MyPlugin extends Plugin {
 		const selectedText = editor.getSelection(); // Get selected text
 		if (selectedText && selectedText.length > 0) {
 			const res = await this.fetchStenography(selectedText)
-			editor.replaceSelection(`${res}\n\n\`\`\`\n${selectedText}\n\`\`\`\n\n`)
+			editor.replaceSelection(`${res.res}\n\n\`\`\`${res.language}\n${selectedText}\n\`\`\`\n\n`)
 		}
 	}
 
-	async fetchStenography(code: string) {
+	async fetchStenography(code: string): Promise<any> {
 	 const statusHTML = this.addStatusBarItem()
 	 statusHTML.setText('Loading from Stenography...');
 	 return await fetch('https://stenography-worker.stenography.workers.dev',
@@ -63,11 +63,12 @@ export default class MyPlugin extends Plugin {
         return resp.json()
       }).then((data:any) => {
 		var markdown = data.pm
+		const language = data.metadata.language || ''
 		if (markdown && Object.keys(markdown).length === 0 && Object.getPrototypeOf(markdown) === Object.prototype) {
 			return 'No stenography response found'
 		}
-		return markdown
-	  }).catch(err => `Error loading from Stenography! Error: ${err}`)
+		return { res: markdown, language: language }
+	  }).catch(err => ({res: `Error loading from Stenography! Error: ${err}`, language: ''}))
 	  .finally(() => {
 		statusHTML.remove();
 	  })
