@@ -1,5 +1,5 @@
 {
-  "name": "stenography-obsidian",
+  "name": "obsidian-stenography-plugin",
   "version": "1.0.1",
   "description": "This plugin calls the [Stenography API](https://stenography.dev/) to translate code blocks into simple English with Machine Learning",
   "main": "main.js",
