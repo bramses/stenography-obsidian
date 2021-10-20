@@ -1,18 +1,18 @@
-import { App, Plugin, PluginSettingTab, Setting, MarkdownView } from 'obsidian';
+import { App, Plugin, PluginSettingTab, Setting, MarkdownView, Notice } from 'obsidian';
 
-interface MyPluginSettings {
+interface StenographyPluginSettings {
 	apiKey: string;
 }
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
+const DEFAULT_SETTINGS: StenographyPluginSettings = {
 	apiKey: ''
 }
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+export default class StenographyPlugin extends Plugin {
+	settings: StenographyPluginSettings;
 
 	async onload() {
-		console.log('loading plugin');
+		console.log('loading stenography plugin');
 		await this.loadSettings();
 
 		this.addRibbonIcon('code-glyph', 'Stenography', async () => {
@@ -29,9 +29,6 @@ export default class MyPlugin extends Plugin {
 
 		this.addSettingTab(new SampleSettingTab(this.app, this));
 
-		this.registerCodeMirror((cm: CodeMirror.Editor) => {
-			console.log('codemirror', cm);
-		});
 
 	}
 
@@ -68,14 +65,19 @@ export default class MyPlugin extends Plugin {
 			return {res: `Stenography response empty!`, language: ''}
 		}
 		return { res: markdown, language: language }
-	  }).catch(err => ({res: `Error loading from Stenography! Error: ${err}`, language: ''}))
+	  }).catch(err => {
+		  console.log(err.message)
+		  console.log(err.message.includes('Failed to fetch'))
+		  if (err.message.includes('Failed to fetch')) { return {res: `Error loading from Stenography! API key error, did you set it in settings?`, language: ''} }
+		  else return {res: `Error loading from Stenography! Error: ${err}`, language: ''}
+		})
 	  .finally(() => {
 		statusHTML.remove();
 	  })
 	}
 
 	onunload() {
-		console.log('unloading plugin');
+		console.log('unloading stenography plugin');
 	}
 
 	async loadSettings() {
@@ -88,9 +90,9 @@ export default class MyPlugin extends Plugin {
 }
 
 class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+	plugin: StenographyPlugin;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: StenographyPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -112,6 +114,7 @@ class SampleSettingTab extends PluginSettingTab {
 				.onChange(async (value) => {
 					this.plugin.settings.apiKey = value;
 					await this.plugin.saveSettings();
+					new Notice('Saved API key!');
 				}));		
 	}
 }
