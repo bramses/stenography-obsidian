@@ -81,17 +81,17 @@ export default class StenographyPlugin extends Plugin {
 
 	}
 
-onunload() {
-	console.log('unloading stenography plugin');
-}
+	onunload() {
+		console.log('unloading stenography plugin');
+	}
 
 	async loadSettings() {
-	this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-}
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+	}
 
 	async saveSettings() {
-	await this.saveData(this.settings);
-}
+		await this.saveData(this.settings);
+	}
 }
 
 class StenographyPluginTab extends PluginSettingTab {
