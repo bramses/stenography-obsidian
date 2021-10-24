@@ -50,36 +50,34 @@ export default class StenographyPlugin extends Plugin {
 	}
 
 	async fetchStenography(code: string): Promise < any > {
-			const statusHTML = this.addStatusBarItem()
+		const statusHTML = this.addStatusBarItem()
 		statusHTML.setText('Loading from Stenography...');
-			try {
-				const res = await fetch('https://stenography-worker.stenography.workers.dev',
-					{
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json;charset=UTF-8' },
-						body: JSON.stringify({
-							code: code,
-							api_key: this.settings.apiKey,
-							audience: 'pm',
-							populate: false,
-							stackoverflow: false
-						})
-					})
+		try {
+			const res = await fetch('https://stenography-worker.stenography.workers.dev',
+			{
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+				body: JSON.stringify({
+					code: code,
+					api_key: this.settings.apiKey,
+					audience: 'pm',
+					populate: false,
+					stackoverflow: false
+				})
+			})
 			const data = await res.json();
-				var markdown = data.pm
+			const markdown = data.pm
 			const language = data.metadata.language || ''
-			if(markdown && Object.keys(markdown).length === 0 && Object.getPrototypeOf(markdown) === Object.prototype) {
-			return { res: `Stenography response empty!`, language: '' }
+			if (markdown && Object.keys(markdown).length === 0 && Object.getPrototypeOf(markdown) === Object.prototype) {
+				return { res: `Stenography response empty!`, language: '' }
+			}
+			return { res: markdown, language: language }
+		} catch(err) {
+			if (err.message.includes('Failed to fetch')) { return { res: `Error loading from Stenography! API key error, did you set it in settings?`, language: '' } }
+			else return { res: `Error loading from Stenography! Error: ${err}`, language: '' }
+		} finally {
+			statusHTML.remove();
 		}
-		return { res: markdown, language: language }
-	} catch(err) {
-		console.log(err.message)
-		console.log(err.message.includes('Failed to fetch'))
-		if (err.message.includes('Failed to fetch')) { return { res: `Error loading from Stenography! API key error, did you set it in settings?`, language: '' } }
-		else return { res: `Error loading from Stenography! Error: ${err}`, language: '' }
-	} finally {
-		statusHTML.remove();
-	}
 
 	}
 
