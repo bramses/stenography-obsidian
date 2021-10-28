@@ -49,7 +49,7 @@ export default class StenographyPlugin extends Plugin {
 		}
 	}
 
-	async fetchStenography(code: string): Promise < any > {
+	async fetchStenography(code: string): Promise <any> {
 		const statusHTML = this.addStatusBarItem()
 		statusHTML.setText('Loading from Stenography...');
 		try {
