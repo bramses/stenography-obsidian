@@ -1,7 +1,7 @@
 {
 	"id": "stenography-obsidian",
 	"name": "Stenography",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "0.9.12",
 	"description": "Auto Describe your code with machine learning using the Stenography API",
 	"author": "bramses",
